@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { Calendar, Clock, Users, User, Mail, Phone, MessageSquare, Send, CheckCircle2 } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
+import emailjs from '@emailjs/browser';
 
 export default function ReservationForm() {
   const [formData, setFormData] = useState({
@@ -16,6 +17,7 @@ export default function ReservationForm() {
   });
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [errorMessage, setErrorMessage] = useState("");
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {
     setFormData(prev => ({
@@ -24,16 +26,71 @@ export default function ReservationForm() {
     }));
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsSubmitting(true);
+    setErrorMessage("");
 
-    // Simulate API call
-    setTimeout(() => {
-      setIsSubmitting(false);
+    try {
+      // 1. Send data to our API (Resend + Google Calendar)
+      const response = await fetch('/api/reservation', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(formData),
+      });
+
+      let data;
+      const contentType = response.headers.get("content-type");
+      if (contentType && contentType.indexOf("application/json") !== -1) {
+        data = await response.json();
+      } else {
+        const text = await response.text();
+        console.error("Non-JSON response:", text);
+        throw new Error(`Server error: ${response.status} ${response.statusText}`);
+      }
+
+      if (!response.ok) {
+        throw new Error(data.error || 'Failed to submit reservation');
+      } else {
+        console.log("Reservation API Success:", data);
+      }
+
+      // 2. Send Auto-reply via EmailJS
+      const serviceId = process.env.NEXT_PUBLIC_EMAILJS_SERVICE_ID;
+      const templateId = process.env.NEXT_PUBLIC_EMAILJS_TEMPLATE_ID;
+      const publicKey = process.env.NEXT_PUBLIC_EMAILJS_PUBLIC_KEY;
+
+      if (serviceId && templateId && publicKey) {
+        try {
+          // Using object syntax for options in EmailJS v4
+          await emailjs.send(
+            serviceId,
+            templateId,
+            {
+              to_name: formData.name,
+              to_email: formData.email,
+              email: formData.email, // Redundant field for compatibility
+              reply_to: formData.email, // Redundant field for compatibility
+              reservation_date: formData.date,
+              reservation_time: formData.time,
+              guests: formData.guests,
+            },
+            {
+              publicKey: publicKey,
+            }
+          );
+        } catch (emailError: any) {
+          console.error("EmailJS Auto-reply failed:", JSON.stringify(emailError));
+        }
+      } else {
+        console.warn("EmailJS credentials missing. Check .env.local");
+      }
+
       setIsSubmitted(true);
       
-      // Reset form after 3 seconds
+      // Reset form after 5 seconds
       setTimeout(() => {
         setIsSubmitted(false);
         setFormData({
@@ -45,8 +102,21 @@ export default function ReservationForm() {
           guests: "2",
           specialRequests: "",
         });
-      }, 3000);
-    }, 1500);
+      }, 5000);
+
+    } catch (error: any) {
+      console.error("Submission Error:", error);
+      let message = "Something went wrong. Please try again.";
+      if (error instanceof Error) {
+        message = error.message;
+      } else if (typeof error === 'object' && error !== null) {
+        // Handle EmailJS error object or other non-Error objects
+        message = JSON.stringify(error);
+      }
+      setErrorMessage(message);
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (
@@ -84,6 +154,12 @@ export default function ReservationForm() {
             onSubmit={handleSubmit}
             className="space-y-6"
           >
+            {errorMessage && (
+              <div className="p-4 bg-red-50 text-red-600 rounded-lg text-sm text-center">
+                {errorMessage}
+              </div>
+            )}
+
             {/* Personal Information Row */}
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <motion.div 

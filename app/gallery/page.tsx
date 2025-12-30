@@ -6,30 +6,34 @@ import { useState } from "react";
 import { X, ChevronLeft, ChevronRight } from "lucide-react";
 
 const galleryImages = [
-  { src: "/DSC_3712.JPG", category: "Cafe" },
-  { src: "/DSC_3767.JPG", category: "Cafe" },
-  { src: "/DSC_3829.JPG", category: "Dishes" },
+  { src: "/DSC_3712.JPG", category: "Dishes" },
+  { src: "/DSC_3767.JPG", category: "Dishes" },
+  { src: "/DSC_3829.JPG", category: "Coolers" },
   { src: "/DSC_3867.JPG", category: "Cafe" },
-  { src: "/DSC_4076.JPG", category: "Celebration" },
-  { src: "/DSC_4079.JPG", category: "Celebration" },
+  { src: "/DSC_4076.JPG", category: "Cafe" },
+  { src: "/DSC_4079.JPG", category: "Cafe" },
   { src: "/DSC_4135.JPG", category: "Cafe" },
-  { src: "/DSC_4313.JPG", category: "Cafe" },
-  { src: "/DSC_5171.JPG", category: "Dishes" },
-  { src: "/DSC_5179.JPG", category: "Dishes" },
-  { src: "/DSC_5205.JPG", category: "Dishes" },
-  { src: "/DSC_5299.JPG", category: "Dishes" },
-  { src: "/IMG_7961.JPG", category: "Cafe" },
-  { src: "/IMG_7962.JPG", category: "Cafe" },
-  { src: "/IMG_7963.JPG", category: "Cafe" },
+  { src: "/DSC_4313.JPG", category: "Celebration" },
+  { src: "/DSC_5171.JPG", category: "Celebration" },
+  { src: "/DSC_5179.JPG", category: "Cafe" },
+  { src: "/image 3.jpg", category: "Cafe" },
+  { src: "/DSC_5205.JPG", category: "Workshops" },
+  { src: "/DSC_5299.JPG", category: "Workshops" },
+  { src: "/IMG_7961.JPG", category: "Co-working" },
+  { src: "/IMG_7962.JPG", category: "Co-working" },
+  { src: "/IMG_7963.JPG", category: "Dishes" },
   { src: "/IMG_7964.JPG", category: "Co-working" },
-  { src: "/NRD04368.JPG", category: "Cafe" },
-  { src: "/NRD04393.JPG", category: "Cafe" },
-  { src: "/NRD04399.JPG", category: "Co-working" },
-  { src: "/NRD04413.JPG", category: "Co-working" },
-  { src: "/NRD04414.JPG", category: "Co-working" },
+  { src: "/NRD04393.JPG", category: "Dishes" },
+  { src: "/NRD04399.JPG", category: "Dishes" },
+  { src: "/NRD04413.JPG", category: "Coolers" },
+  { src: "/NRD04368.JPG", category: "Dishes" },
+  { src: "/NRD04414.JPG", category: "Dishes" },
+  { src: "/image 1.jpg", category: "Cafe" },
+  { src: "/image 2.jpg", category: "Cafe" },
+  { src: "/image 4.jpg", category: "Dishes" },
 ];
 
-const categories = ["All", "Celebration", "Cafe", "Co-working", "Dishes"];
+const categories = ["All", "Celebration", "Cafe", "Co-working", "Dishes", "Coolers","Workshops"];
 
 export default function GalleryPage() {
   const [selectedImage, setSelectedImage] = useState<number | null>(null);
@@ -112,7 +116,7 @@ export default function GalleryPage() {
                 animate={{ opacity: 1, scale: 1 }}
                 exit={{ opacity: 0, scale: 0.9 }}
                 transition={{ duration: 0.3 }}
-                className="relative aspect-square group cursor-pointer overflow-hidden bg-gray-100"
+                className="relative aspect-square group cursor-pointer overflow-hidden bg-gray-100 rounded-2xl"
                 onClick={() => setSelectedImage(index)}
               >
                 <Image 

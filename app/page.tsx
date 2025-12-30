@@ -37,15 +37,15 @@ export default function Home() {
     <div ref={containerRef} className="bg-white text-black overflow-x-hidden selection:bg-black selection:text-white">
       
       {/* HERO SECTION - MODERN SPLIT LAYOUT */}
-      <section className="relative min-h-[85vh] pt-20 grid grid-cols-1 lg:grid-cols-2 overflow-hidden bg-white">
+      <section className="relative min-h-[65vh] lg:h-screen pt-20 grid grid-cols-1 lg:grid-cols-2 overflow-hidden bg-white">
         
         {/* LEFT SIDE - Content */}
-        <div className="relative z-10 flex flex-col justify-center px-6 md:px-12 lg:px-20 py-12 lg:py-20 bg-gradient-to-br from-emerald-950 via-emerald-900 to-emerald-800 lg:order-2">
+        <div className="relative z-10 flex flex-col justify-center px-6 md:px-12 lg:px-20 py-12 lg:py-0 bg-gradient-to-br from-emerald-950 via-emerald-900 to-emerald-800 lg:order-2">
           <motion.div
             initial={{ opacity: 0, x: -50 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.6, ease: "easeOut" }}
-            className="space-y-8"
+            className="space-y-6 lg:space-y-6"
           >
             {/* Badge */}
             <div className="flex flex-wrap gap-3">
@@ -66,7 +66,7 @@ export default function Home() {
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.4, duration: 0.8 }}
-                className="text-5xl md:text-6xl lg:text-7xl xl:text-8xl font-cinzel font-bold text-white leading-none tracking-tight"
+                className="text-5xl md:text-6xl lg:text-6xl xl:text-7xl font-cinzel font-bold text-white leading-none tracking-tight"
               >
                 Cafe
                 <br />
@@ -103,14 +103,14 @@ export default function Home() {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 1, duration: 0.8 }}
-              className="grid grid-cols-2 gap-4 pt-6"
+              className="grid grid-cols-2 gap-4 pt-4"
             >
-              <div className="bg-white/10 backdrop-blur-lg rounded-2xl p-5 border border-white/20">
+              <div className="bg-white/10 backdrop-blur-lg rounded-2xl p-4 border border-white/20">
                 <MapPin className="w-6 h-6 text-emerald-300 mb-2" />
                 <p className="text-white text-sm font-bold">Pimple Nilakh</p>
                 <p className="text-emerald-200 text-xs">Pune, Maharashtra</p>
               </div>
-              <div className="bg-white/10 backdrop-blur-lg rounded-2xl p-5 border border-white/20">
+              <div className="bg-white/10 backdrop-blur-lg rounded-2xl p-4 border border-white/20">
                 <Clock className="w-6 h-6 text-emerald-300 mb-2" />
                 <p className="text-white text-sm font-bold">Open Daily</p>
                 <p className="text-emerald-200 text-xs">9 AM - 11 PM</p>
@@ -122,7 +122,7 @@ export default function Home() {
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ delay: 1.2, duration: 0.8 }}
-              className="flex flex-col sm:flex-row gap-4 pt-8"
+              className="flex flex-col sm:flex-row gap-4 pt-6"
             >
               <motion.div 
                 whileHover={{ scale: 1.05, y: -3 }} 

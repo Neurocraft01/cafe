@@ -55,7 +55,7 @@ export default function Footer() {
             <ul className="space-y-4 text-sm text-gray-600">
               <li className="flex items-start space-x-3">
                 <MapPin size={18} className="mt-1 text-black" />
-                <a href="https://maps.app.goo.gl/HwckxhpnaBzbqRzN8" target="_blank" rel="noopener noreferrer" className="hover:text-emerald-600 transition-colors">
+                <a href="https://maps.app.goo.gl/Q1xMhJLM5V2K2ZCM8" target="_blank" rel="noopener noreferrer" className="hover:text-emerald-600 transition-colors">
                   3, GK Lane, near Stimal Hospital,<br />Vishal Nagar, Pimple Nilakh,<br />Pimpri-Chinchwad, Maharashtra 411027
                 </a>
               </li>
@@ -71,9 +71,17 @@ export default function Footer() {
           </div>
         </div>
 
-        <div className="border-t border-gray-100 mt-16 pt-8 flex flex-col md:flex-row justify-between items-center text-xs text-gray-400 uppercase tracking-wider">
+        <div className="border-t border-gray-100 mt-16 pt-8 flex flex-col md:flex-row justify-between items-center text-xs text-gray-400 uppercase tracking-wider gap-y-4">
           <p>&copy; 2024 VanaBella. All rights reserved.</p>
-          <div className="flex space-x-6 mt-4 md:mt-0">
+          
+          <div className="flex items-center gap-2">
+            <a href="https://aksautomations.vercel.app/" target="_blank" rel="noopener noreferrer" className="hover:text-emerald-900 transition-colors text-sm">
+              <span className="font-bold opacity-95 text-black">Designed & Developed by </span>
+              <span className="font-bold text-emerald-700 tracking-widest">AKS AUTOMATIONS</span>
+            </a>
+          </div>
+
+          <div className="flex space-x-6">
             <a href="#" className="hover:text-black transition-colors">Privacy Policy</a>
             <a href="#" className="hover:text-black transition-colors">Terms of Service</a>
           </div>

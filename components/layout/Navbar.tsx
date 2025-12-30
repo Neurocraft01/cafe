@@ -44,13 +44,13 @@ export default function Navbar() {
         
         {/* Logo */}
         <Link href="/" className="relative z-[60] group">
-          <div className="flex items-center h-12 md:h-14 overflow-hidden bg-gradient-to-br from-emerald-50 to-white rounded-lg px-2 shadow-sm group-hover:shadow-md transition-shadow">
+          <div className="flex items-center h-14 md:h-16 overflow-hidden bg-gradient-to-br from-emerald-40 to-white rounded-lg px-2">
             <Image 
               src="/logo.jpg" 
               alt="Cafe VanaBella Logo" 
-              width={120} 
-              height={48} 
-              className="object-contain object-center w-auto h-full mix-blend-multiply scale-150"
+              width={220} 
+              height={60} 
+              className="object-contain object-center w-auto h-full mix-blend-multiply"
               style={{ objectPosition: 'center' }}
               priority
             />

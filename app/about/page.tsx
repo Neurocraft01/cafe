@@ -278,24 +278,71 @@ export default function AboutPage() {
           </motion.div>
 
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
-            {/* Google Maps */}
-            <motion.div 
-              initial={{ opacity: 0, x: -20 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              viewport={{ once: true }}
-              className="rounded-2xl overflow-hidden shadow-2xl border border-emerald-200"
-            >
-              <iframe
-                src="https://maps.google.com/maps?q=Cafe%20VanaBella%2C%20Pimple%20Nilakh&t=&z=15&ie=UTF8&iwloc=&output=embed"
-                width="100%"
-                height="450"
-                style={{ border: 0 }}
-                allowFullScreen
-                loading="lazy"
-                referrerPolicy="no-referrer-when-downgrade"
-                className="grayscale hover:grayscale-0 transition-all duration-500"
-              ></iframe>
-            </motion.div>
+            {/* Left Column: Map & Instagram */}
+            <div className="space-y-8">
+              {/* Google Maps */}
+              <motion.div 
+                initial={{ opacity: 0, x: -20 }}
+                whileInView={{ opacity: 1, x: 0 }}
+                viewport={{ once: true }}
+                className="rounded-2xl overflow-hidden shadow-2xl border border-emerald-200"
+              >
+                <iframe
+                  src="https://maps.google.com/maps?q=Cafe%20VanaBella%2C%20Pimple%20Nilakh&t=&z=15&ie=UTF8&iwloc=&output=embed"
+                  width="100%"
+                  height="250"
+                  style={{ border: 0 }}
+                  allowFullScreen
+                  loading="lazy"
+                  referrerPolicy="no-referrer-when-downgrade"
+                  className="grayscale hover:grayscale-0 transition-all duration-500"
+                ></iframe>
+              </motion.div>
+
+              {/* Instagram Section */}
+              <motion.div
+                initial={{ opacity: 0, x: -20 }}
+                whileInView={{ opacity: 1, x: 0 }}
+                viewport={{ once: true }}
+                transition={{ delay: 0.2 }}
+                className="bg-white rounded-2xl p-8 shadow-xl border border-emerald-100 text-center"
+              >
+                <h3 className="text-xl font-cinzel font-bold text-emerald-950 mb-4">Follow Us on Instagram</h3>
+                <a 
+                  href="https://www.instagram.com/cafevanabella" 
+                  target="_blank" 
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-purple-500 via-pink-500 to-orange-500 text-white rounded-full font-bold uppercase tracking-wider text-sm hover:opacity-90 transition-opacity shadow-lg mb-6"
+                >
+                  <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                    <path fillRule="evenodd" d="M12.315 2c2.43 0 2.784.013 3.808.06 1.064.049 1.791.218 2.427.465a4.902 4.902 0 011.772 1.153 4.902 4.902 0 011.153 1.772c.247.636.416 1.363.465 2.427.048 1.067.06 1.407.06 4.123v.08c0 2.643-.012 2.987-.06 4.043-.049 1.064-.218 1.791-.465 2.427a4.902 4.902 0 01-1.153 1.772 4.902 4.902 0 01-1.772 1.153c-.636.247-1.363.416-2.427.465-1.067.048-1.407.06-4.123.06h-.08c-2.643 0-2.987-.012-4.043-.06-1.064-.049-1.791-.218-2.427-.465a4.902 4.902 0 01-1.772-1.153 4.902 4.902 0 01-1.153-1.772c-.247-.636-.416-1.363-.465-2.427-.047-1.024-.06-1.379-.06-3.808v-.63c0-2.43.013-2.784.06-3.808.049-1.064.218-1.791.465-2.427a4.902 4.902 0 011.153-1.772 4.902 4.902 0 011.772-1.153c.636-.247 1.363-.416 2.427-.465 1.067-.047 1.407-.06 4.123-.06h.08zm-1.634 7.676a3 3 0 113.268 3.268 3 3 0 01-3.268-3.268z" clipRule="evenodd" />
+                  </svg>
+                  @cafevanabella
+                </a>
+
+                {/* Instagram Grid */}
+                <div className="grid grid-cols-3 gap-2 mt-4">
+                  {[
+                    "/DSC_3712.JPG",
+                    "/DSC_3829.JPG",
+                    "/DSC_4076.JPG",
+                    "/DSC_5171.JPG",
+                    "/NRD04368.JPG",
+                    "/NRD04413.JPG"
+                  ].map((src, idx) => (
+                    <div key={idx} className="relative aspect-square overflow-hidden rounded-lg group cursor-pointer">
+                      <Image 
+                        src={src} 
+                        alt={`Instagram post ${idx + 1}`}
+                        fill
+                        className="object-cover group-hover:scale-110 transition-transform duration-500"
+                      />
+                      <div className="absolute inset-0 bg-black/20 group-hover:bg-black/0 transition-colors"></div>
+                    </div>
+                  ))}
+                </div>
+              </motion.div>
+            </div>
 
             {/* Contact Details */}
             <motion.div 
@@ -315,9 +362,9 @@ export default function AboutPage() {
                   <div>
                     <h3 className="text-xl font-cinzel font-bold text-emerald-950 mb-2">Address</h3>
                     <p className="text-gray-600 leading-relaxed">
-                      Pimple Nilakh<br />
-                      Pune, Maharashtra 411027<br />
-                      India
+                      3, GK Lane, near Stimal Hospital,<br />
+                      Vishal Nagar, Pimple Nilakh,<br />
+                      Pimpri-Chinchwad, Maharashtra 411027
                     </p>
                   </div>
                 </div>
@@ -333,7 +380,7 @@ export default function AboutPage() {
                   <div>
                     <h3 className="text-xl font-cinzel font-bold text-emerald-950 mb-2">Phone</h3>
                     <p className="text-gray-600">
-                      <a href="tel:+919876543210" className="hover:text-emerald-600 transition-colors">+91 98765 43210</a>
+                      <a href="tel:+918972493209" className="hover:text-emerald-600 transition-colors">8972493209</a> / <a href="tel:+919074627887" className="hover:text-emerald-600 transition-colors">90746 27887</a>
                     </p>
                   </div>
                 </div>
@@ -366,7 +413,7 @@ export default function AboutPage() {
                   <div>
                     <h3 className="text-xl font-cinzel font-bold text-emerald-950 mb-2">Email</h3>
                     <p className="text-gray-600">
-                      <a href="mailto:info@cafevanabella.com" className="hover:text-emerald-600 transition-colors">info@cafevanabella.com</a>
+                      <a href="mailto:hello@cafevanabella.com" className="hover:text-emerald-600 transition-colors">hello@cafevanabella.com</a>
                     </p>
                   </div>
                 </div>

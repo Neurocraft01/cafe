@@ -1,10 +1,103 @@
 ﻿"use client";
 
+import { useState } from "react";
 import { motion } from "framer-motion";
-import { MapPin, Phone, Mail, Clock, Send } from "lucide-react";
+import { MapPin, Phone, Mail, Clock, Send, CheckCircle2 } from "lucide-react";
 import Image from "next/image";
+import emailjs from '@emailjs/browser';
 
 export default function ContactPage() {
+  const [formData, setFormData] = useState({
+    name: "",
+    email: "",
+    subject: "General Inquiry",
+    message: "",
+  });
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [isSubmitted, setIsSubmitted] = useState(false);
+  const [errorMessage, setErrorMessage] = useState("");
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {
+    setFormData(prev => ({
+      ...prev,
+      [e.target.name]: e.target.value
+    }));
+  };
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setIsSubmitting(true);
+    setErrorMessage("");
+
+    try {
+      // 1. Send to API (Resend)
+      const response = await fetch('/api/contact', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(formData),
+      });
+
+      if (!response.ok) {
+        const text = await response.text();
+        console.error("API Error:", text);
+        throw new Error('Failed to send message');
+      }
+
+      // 2. Send Auto-reply via EmailJS
+      const serviceId = process.env.NEXT_PUBLIC_EMAILJS_SERVICE_ID;
+      const templateId = process.env.NEXT_PUBLIC_EMAILJS_TEMPLATE_ID;
+      const publicKey = process.env.NEXT_PUBLIC_EMAILJS_PUBLIC_KEY;
+
+      if (serviceId && templateId && publicKey) {
+        try {
+          await emailjs.send(
+            serviceId,
+            templateId,
+            {
+              to_name: formData.name,
+              to_email: formData.email,
+              email: formData.email, // Redundant field for compatibility
+              reply_to: formData.email, // Redundant field for compatibility
+              subject: formData.subject,
+              message: formData.message,
+            },
+            {
+              publicKey: publicKey,
+            }
+          );
+        } catch (emailError: any) {
+          console.error("EmailJS Auto-reply failed:", JSON.stringify(emailError));
+        }
+      } else {
+        console.warn("EmailJS credentials missing. Check .env.local");
+      }
+
+      setIsSubmitted(true);
+      setFormData({
+        name: "",
+        email: "",
+        subject: "General Inquiry",
+        message: "",
+      });
+
+      setTimeout(() => setIsSubmitted(false), 5000);
+
+    } catch (error: any) {
+      console.error("Contact Error:", error);
+      let message = "Failed to send message. Please try again.";
+      if (error instanceof Error) {
+        message = error.message;
+      } else if (typeof error === 'object' && error !== null) {
+        message = JSON.stringify(error);
+      }
+      setErrorMessage(message);
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
+
   return (
     <div className="min-h-screen bg-white text-black selection:bg-black selection:text-white">
       
@@ -43,34 +136,85 @@ export default function ContactPage() {
             className="bg-gray-50 p-8 md:p-12"
           >
             <h2 className="text-3xl font-serif font-bold mb-8">Send a Message</h2>
-            <form className="space-y-6">
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <div className="space-y-2">
-                  <label className="text-xs font-bold uppercase tracking-widest text-gray-500">Name</label>
-                  <input type="text" className="w-full bg-white border-b border-gray-200 p-3 focus:border-black focus:outline-none transition-colors" placeholder="John Doe" />
+            
+            {isSubmitted ? (
+              <motion.div
+                initial={{ opacity: 0, scale: 0.9 }}
+                animate={{ opacity: 1, scale: 1 }}
+                className="text-center py-12"
+              >
+                <CheckCircle2 className="w-16 h-16 text-green-500 mx-auto mb-4" />
+                <h3 className="text-2xl font-bold mb-2">Message Sent!</h3>
+                <p className="text-gray-600">We'll get back to you shortly.</p>
+              </motion.div>
+            ) : (
+              <form onSubmit={handleSubmit} className="space-y-6">
+                {errorMessage && (
+                  <div className="p-3 bg-red-50 text-red-600 text-sm rounded">
+                    {errorMessage}
+                  </div>
+                )}
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                  <div className="space-y-2">
+                    <label className="text-xs font-bold uppercase tracking-widest text-gray-500">Name</label>
+                    <input 
+                      type="text" 
+                      name="name"
+                      value={formData.name}
+                      onChange={handleChange}
+                      required
+                      className="w-full bg-white border-b border-gray-200 p-3 focus:border-black focus:outline-none transition-colors" 
+                      placeholder="John Doe" 
+                    />
+                  </div>
+                  <div className="space-y-2">
+                    <label className="text-xs font-bold uppercase tracking-widest text-gray-500">Email</label>
+                    <input 
+                      type="email" 
+                      name="email"
+                      value={formData.email}
+                      onChange={handleChange}
+                      required
+                      className="w-full bg-white border-b border-gray-200 p-3 focus:border-black focus:outline-none transition-colors" 
+                      placeholder="john@example.com" 
+                    />
+                  </div>
                 </div>
                 <div className="space-y-2">
-                  <label className="text-xs font-bold uppercase tracking-widest text-gray-500">Email</label>
-                  <input type="email" className="w-full bg-white border-b border-gray-200 p-3 focus:border-black focus:outline-none transition-colors" placeholder="john@example.com" />
+                  <label className="text-xs font-bold uppercase tracking-widest text-gray-500">Subject</label>
+                  <select 
+                    name="subject"
+                    value={formData.subject}
+                    onChange={handleChange}
+                    className="w-full bg-white border-b border-gray-200 p-3 focus:border-black focus:outline-none transition-colors"
+                  >
+                    <option>General Inquiry</option>
+                    <option>Private Events</option>
+                    <option>Press & Media</option>
+                    <option>Careers</option>
+                  </select>
                 </div>
-              </div>
-              <div className="space-y-2">
-                <label className="text-xs font-bold uppercase tracking-widest text-gray-500">Subject</label>
-                <select className="w-full bg-white border-b border-gray-200 p-3 focus:border-black focus:outline-none transition-colors">
-                  <option>General Inquiry</option>
-                  <option>Private Events</option>
-                  <option>Press & Media</option>
-                  <option>Careers</option>
-                </select>
-              </div>
-              <div className="space-y-2">
-                <label className="text-xs font-bold uppercase tracking-widest text-gray-500">Message</label>
-                <textarea rows={4} className="w-full bg-white border-b border-gray-200 p-3 focus:border-black focus:outline-none transition-colors resize-none" placeholder="How can we help you?"></textarea>
-              </div>
-              <button className="bg-black text-white px-8 py-4 uppercase tracking-widest text-xs font-bold hover:bg-gray-800 transition-colors flex items-center gap-2">
-                Send Message <Send size={14} />
-              </button>
-            </form>
+                <div className="space-y-2">
+                  <label className="text-xs font-bold uppercase tracking-widest text-gray-500">Message</label>
+                  <textarea 
+                    name="message"
+                    value={formData.message}
+                    onChange={handleChange}
+                    required
+                    rows={4} 
+                    className="w-full bg-white border-b border-gray-200 p-3 focus:border-black focus:outline-none transition-colors resize-none" 
+                    placeholder="How can we help you?"
+                  ></textarea>
+                </div>
+                <button 
+                  type="submit"
+                  disabled={isSubmitting}
+                  className="bg-black text-white px-8 py-4 uppercase tracking-widest text-xs font-bold hover:bg-gray-800 transition-colors flex items-center gap-2 disabled:opacity-50"
+                >
+                  {isSubmitting ? 'Sending...' : 'Send Message'} <Send size={14} />
+                </button>
+              </form>
+            )}
           </motion.div>
 
           {/* INFO & MAP */}
@@ -91,7 +235,7 @@ export default function ContactPage() {
                     <MapPin className="mt-1 text-gray-400" />
                     <div>
                       <h4 className="font-bold uppercase tracking-widest text-sm mb-1">Address</h4>
-                      <a href="https://maps.app.goo.gl/HwckxhpnaBzbqRzN8" target="_blank" rel="noopener noreferrer" className="text-gray-600 text-sm hover:text-black transition-colors">
+                      <a href="https://maps.app.goo.gl/Q1xMhJLM5V2K2ZCM8" target="_blank" rel="noopener noreferrer" className="text-gray-600 text-sm hover:text-black transition-colors">
                         3, GK Lane, near Stimal Hospital,<br />Vishal Nagar, Pimple Nilakh,<br />Pimpri-Chinchwad, Maharashtra 411027
                       </a>
                     </div>

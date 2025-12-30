@@ -143,7 +143,7 @@ export default function ReservationsPage() {
                       Pimpri-Chinchwad, Maharashtra 411027
                     </p>
                     <a
-                      href="https://maps.app.goo.gl/HwckxhpnaBzbqRzN8"
+                      href="https://maps.app.goo.gl/Q1xMhJLM5V2K2ZCM8"
                       target="_blank"
                       rel="noopener noreferrer"
                       className="inline-block mt-4 text-red-600 font-semibold text-sm hover:underline"
