@@ -8,11 +8,11 @@ import { useRef, useState, useEffect } from "react";
 import { WaveDividerBottom, WaveDividerTop, OrganicTornTop } from "@/components/NatureDividers";
 
 const heroImages = [
-  "/DSC_3712.JPG",
-  "/DSC_3767.JPG",
-  "/DSC_3829.JPG",
-  "/DSC_3867.JPG",
+  "/DSC_5179.JPG",
   "/DSC_4076.JPG",
+  "/DSC_5171.JPG",
+  "/DSC_5299.JPG",
+  "/NRD04414.JPG",
 ];
 
 export default function Home() {
@@ -279,7 +279,7 @@ export default function Home() {
             className="relative h-[400px] w-full rounded-[3rem] overflow-hidden shadow-2xl lg:order-2"
           >
             <Image 
-              src="/DSC_3712.JPG"
+              src="/DSC_4079.JPG"
               alt="Cafe Interior"
               fill
               className="object-cover hover:scale-105 transition-transform duration-1000"

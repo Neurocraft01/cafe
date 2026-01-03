@@ -1,8 +1,36 @@
 ﻿"use client";
 
-import { motion } from "framer-motion";
+import { motion, useInView } from "framer-motion";
 import Image from "next/image";
 import { ChefHat, Award, Users, Clock, Star } from "lucide-react";
+import { useEffect, useRef, useState } from "react";
+
+function Counter({ value, suffix = "" }: { value: number, suffix?: string }) {
+  const ref = useRef(null);
+  const isInView = useInView(ref, { once: true });
+  const [count, setCount] = useState(0);
+
+  useEffect(() => {
+    if (isInView) {
+      const duration = 2000; // 2 seconds
+      const steps = 60;
+      const stepTime = duration / steps;
+      let current = 0;
+      const timer = setInterval(() => {
+        current += value / steps;
+        if (current >= value) {
+          setCount(value);
+          clearInterval(timer);
+        } else {
+          setCount(Math.floor(current));
+        }
+      }, stepTime);
+      return () => clearInterval(timer);
+    }
+  }, [isInView, value]);
+
+  return <span ref={ref}>{count}{suffix}</span>;
+}
 
 export default function AboutPage() {
   return (
@@ -87,10 +115,10 @@ export default function AboutPage() {
         <div className="container mx-auto px-4">
           <div className="grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
             {[
-              { icon: ChefHat, label: "Master Chefs", value: "5+" },
-              { icon: Award, label: "Menu Items", value: "100+" },
-              { icon: Users, label: "Happy Guests", value: "5k+" },
-              { icon: Clock, label: "Established", value: "2024" },
+              { icon: ChefHat, label: "Master Chefs", value: 5, suffix: "+" },
+              { icon: Award, label: "Menu Items", value: 100, suffix: "+" },
+              { icon: Users, label: "Happy Guests", value: 5000, suffix: "+" },
+              { icon: Clock, label: "Established", value: 2024, suffix: "" },
             ].map((stat, index) => (
               <motion.div 
                 key={index}
@@ -101,7 +129,9 @@ export default function AboutPage() {
                 className="flex flex-col items-center"
               >
                 <stat.icon size={32} className="mb-4 text-gray-400" />
-                <span className="text-4xl font-serif font-bold mb-2">{stat.value}</span>
+                <span className="text-4xl font-serif font-bold mb-2">
+                  <Counter value={stat.value} suffix={stat.suffix} />
+                </span>
                 <span className="text-xs uppercase tracking-widest text-gray-500">{stat.label}</span>
               </motion.div>
             ))}
@@ -119,9 +149,9 @@ export default function AboutPage() {
           
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             {[
-              { name: "Head Chef", role: "Culinary Director", img: "/IMG_7961.JPG" },
-              { name: "Sous Chef", role: "Kitchen Manager", img: "/IMG_7962.JPG" },
-              { name: "Pastry Chef", role: "Dessert Specialist", img: "/IMG_7963.JPG" },
+              { name: "Head Chef", role: "Culinary Director", img: "https://placehold.co/600x800?text=Head+Chef" },
+              { name: "Sous Chef", role: "Kitchen Manager", img: "https://placehold.co/600x800?text=Sous+Chef" },
+              { name: "Pastry Chef", role: "Dessert Specialist", img: "https://placehold.co/600x800?text=Pastry+Chef" },
             ].map((member, index) => (
               <motion.div 
                 key={index}
@@ -221,7 +251,7 @@ export default function AboutPage() {
       </section>
 
       {/* 360 VIRTUAL TOUR SECTION */}
-      <section className="py-24 px-4 bg-white relative overflow-hidden">
+      {/* <section className="py-24 px-4 bg-white relative overflow-hidden">
         <div className="container mx-auto max-w-7xl">
           <motion.div 
             initial={{ opacity: 0, y: 20 }}
@@ -244,7 +274,6 @@ export default function AboutPage() {
             className="bg-gradient-to-br from-emerald-50 to-emerald-100 rounded-3xl overflow-hidden shadow-2xl border border-emerald-200"
           >
             <div className="aspect-video relative bg-emerald-900/10 flex items-center justify-center">
-              {/* Placeholder for 360 view - can be replaced with actual 360 viewer */}
               <div className="text-center p-12">
                 <div className="w-24 h-24 mx-auto mb-6 bg-emerald-600 rounded-full flex items-center justify-center animate-pulse">
                   <svg className="w-12 h-12 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -260,7 +289,7 @@ export default function AboutPage() {
             </div>
           </motion.div>
         </div>
-      </section>
+      </section> */}
 
       {/* LOCATION & CONTACT SECTION */}
       <section className="py-24 px-4 bg-emerald-50 relative">
@@ -347,7 +376,7 @@ export default function AboutPage() {
             {/* Contact Details */}
             <motion.div 
               initial={{ opacity: 0, x: 20 }}
-              whileInView={{ opacity: 1, x: 0 }}
+              whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               className="space-y-8"
             >

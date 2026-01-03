@@ -9,7 +9,7 @@ export default function WorkshopPage() {
     <div className="min-h-screen bg-white text-black selection:bg-black selection:text-white">
       
       {/* HERO BANNER */}
-      <section className="relative min-h-[50vh] py-20 flex items-center justify-center overflow-hidden bg-emerald-950">
+      <section className="relative h-[50vh] flex items-center justify-center overflow-hidden bg-emerald-950">
         <div className="absolute inset-0 z-0">
           <Image 
             src="/DSC_5171.JPG"
@@ -37,7 +37,7 @@ export default function WorkshopPage() {
             transition={{ delay: 0.2, duration: 0.8 }}
             className="text-6xl md:text-8xl font-serif font-bold mb-6 leading-tight font-cinzel"
           >
-            Workshops <span className="italic font-light font-serif">&</span> Celebrations
+            Workshops
           </motion.h1>
           <motion.p 
             initial={{ opacity: 0 }}
@@ -147,84 +147,6 @@ export default function WorkshopPage() {
           <div className="text-center mb-16">
             <h2 className="text-4xl font-serif font-bold mb-4">Celebrate <span className="italic text-gray-500">with Us</span></h2>
             <p className="text-gray-600 max-w-2xl mx-auto">Make your special occasions unforgettable at VanaBella</p>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-16">
-            {[
-              {
-                icon: Cake,
-                title: "Birthday Parties",
-                description: "Customized birthday celebrations with special menus, decorations, and personalized cakes.",
-                features: ["Custom Cake", "Decorations", "Special Menu", "Music Setup"]
-              },
-              {
-                icon: PartyPopper,
-                title: "Corporate Events",
-                description: "Professional venue for team building, product launches, and corporate gatherings.",
-                features: ["AV Equipment", "Catering", "Seating Arrangements", "Branding Options"]
-              },
-              {
-                icon: Gift,
-                title: "Private Celebrations",
-                description: "Intimate gatherings for anniversaries, engagements, and family reunions.",
-                features: ["Private Space", "Custom Menu", "Decorations", "Photography Support"]
-              }
-            ].map((celebration, index) => (
-              <motion.div
-                key={index}
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ delay: index * 0.1 }}
-                className="bg-white p-8 border border-gray-100 hover:border-black transition-all duration-300"
-              >
-                <div className="mb-6 inline-flex p-4 bg-gray-50 rounded-full">
-                  <celebration.icon size={32} className="text-black" />
-                </div>
-                <h3 className="text-xl font-serif font-bold mb-4">{celebration.title}</h3>
-                <p className="text-gray-600 text-sm leading-relaxed mb-6">{celebration.description}</p>
-                <ul className="space-y-3">
-                  {celebration.features.map((feature, i) => (
-                    <li key={i} className="flex items-center gap-3 text-sm text-gray-600">
-                      <div className="w-1.5 h-1.5 rounded-full bg-black" />
-                      <span>{feature}</span>
-                    </li>
-                  ))}
-                </ul>
-              </motion.div>
-            ))}
-          </div>
-
-          {/* CELEBRATION GALLERY */}
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-12">
-            {[
-              "/DSC_4076.JPG",
-              "/DSC_4079.JPG",
-              "/DSC_4135.JPG",
-              "/DSC_4313.JPG"
-            ].map((img, index) => (
-              <motion.div
-                key={index}
-                initial={{ opacity: 0, scale: 0.9 }}
-                whileInView={{ opacity: 1, scale: 1 }}
-                viewport={{ once: true }}
-                className="relative aspect-square overflow-hidden group"
-              >
-                <Image 
-                  src={img}
-                  alt={`Celebration ${index + 1}`}
-                  fill
-                  className="object-cover group-hover:scale-110 transition-transform duration-500"
-                />
-              </motion.div>
-            ))}
-          </div>
-
-          <div className="text-center">
-            <p className="text-gray-600 mb-6">Ready to plan your event?</p>
-            <button className="px-8 py-4 bg-black text-white text-xs font-bold uppercase tracking-widest hover:bg-gray-800 transition-colors">
-              Contact Us for Bookings
-            </button>
           </div>
         </div>
       </section>

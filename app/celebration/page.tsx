@@ -162,6 +162,40 @@ export default function CelebrationPage() {
         </div>
       </section>
 
+      {/* CAPTURED MOMENTS */}
+      <section className="py-24 px-4 bg-white">
+        <div className="container mx-auto max-w-6xl">
+          <div className="text-center mb-16">
+            <h2 className="text-3xl font-serif font-bold mb-4 text-emerald-950">Captured <span className="italic text-emerald-600">Moments</span></h2>
+            <p className="text-gray-600 max-w-2xl mx-auto">Glimpses of joy and celebration at VanaBella.</p>
+          </div>
+
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+            {[
+              "/IMG_7963.JPG",
+              "/DSC_5171.JPG",
+              "/DSC_4076.JPG",
+              "/DSC_4079.JPG"
+            ].map((img, index) => (
+              <motion.div
+                key={index}
+                initial={{ opacity: 0, scale: 0.9 }}
+                whileInView={{ opacity: 1, scale: 1 }}
+                viewport={{ once: true }}
+                className="relative aspect-square overflow-hidden group rounded-lg"
+              >
+                <Image 
+                  src={img}
+                  alt={`Celebration Moment ${index + 1}`}
+                  fill
+                  className="object-cover group-hover:scale-110 transition-transform duration-500"
+                />
+              </motion.div>
+            ))}
+          </div>
+        </div>
+      </section>
+
       {/* PACKAGES */}
       <section className="bg-gray-50 py-24 px-4">
         <div className="container mx-auto max-w-6xl">
