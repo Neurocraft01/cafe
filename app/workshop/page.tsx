@@ -142,14 +142,14 @@ export default function WorkshopPage() {
       </section>
 
       {/* CELEBRATIONS SECTION */}
-      <section className="bg-gray-50 py-24 px-4">
+      {/* <section className="bg-gray-50 py-24 px-4">
         <div className="container mx-auto max-w-6xl">
           <div className="text-center mb-16">
             <h2 className="text-4xl font-serif font-bold mb-4">Celebrate <span className="italic text-gray-500">with Us</span></h2>
             <p className="text-gray-600 max-w-2xl mx-auto">Make your special occasions unforgettable at VanaBella</p>
           </div>
         </div>
-      </section>
+      </section> */}
 
       {/* CTA */}
       <section className="py-24 px-4 text-center bg-white">
