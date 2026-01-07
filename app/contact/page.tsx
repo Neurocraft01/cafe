@@ -284,7 +284,7 @@ export default function ContactPage() {
                 scrolling="no" 
                 marginHeight={0} 
                 marginWidth={0} 
-                src="https://maps.google.com/maps?q=Cafe%20VanaBella%2C%20Pimple%20Nilakh&t=&z=15&ie=UTF8&iwloc=&output=embed"
+                src="https://www.google.com/maps?q=Cafe+VanaBella,+Pimple+Nilakh&output=embed"
                 className="grayscale hover:grayscale-0 transition-all duration-500"
                ></iframe>
             </div>
