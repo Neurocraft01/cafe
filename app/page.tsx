@@ -113,7 +113,7 @@ export default function Home() {
               <div className="bg-white/10 backdrop-blur-lg rounded-2xl p-4 border border-white/20">
                 <Clock className="w-6 h-6 text-emerald-300 mb-2" />
                 <p className="text-white text-sm font-bold">Open Daily</p>
-                <p className="text-emerald-200 text-xs">9 AM - 11 PM</p>
+                <p className="text-emerald-200 text-xs">10.30 AM - 10.30 PM</p>
               </div>
             </motion.div>
 

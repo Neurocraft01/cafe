@@ -61,7 +61,7 @@ export default function Footer() {
               </li>
               <li className="flex items-center space-x-3">
                 <Phone size={18} className="text-black" />
-                <span>8972493209 / 90746 27887 / 80975 91266</span>
+                <span>8972493209 / 9074627887 / 8097991266</span>
               </li>
               <li className="flex items-center space-x-3">
                 <Mail size={18} className="text-black" />
@@ -75,7 +75,7 @@ export default function Footer() {
           <p>&copy; 2024 VanaBella. All rights reserved.</p>
           
           <div className="flex items-center gap-2">
-            <a href="https://aksautomations.vercel.app/" target="_blank" rel="noopener noreferrer" className="hover:text-emerald-900 transition-colors text-sm">
+            <a href="https://aksautomations.com/" target="_blank" rel="noopener noreferrer" className="hover:text-emerald-900 transition-colors text-sm">
               <span className="font-bold opacity-95 text-black">Designed & Developed by </span>
               <span className="font-bold text-emerald-700 tracking-widest">AKS AUTOMATIONS</span>
             </a>

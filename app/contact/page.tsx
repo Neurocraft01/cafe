@@ -244,7 +244,7 @@ export default function ContactPage() {
                     <Phone className="mt-1 text-gray-400" />
                     <div>
                       <h4 className="font-bold uppercase tracking-widest text-sm mb-1">Phone</h4>
-                      <p className="text-gray-600 text-sm">8972493209 / 90746 27887 / 80975 91266</p>
+                      <p className="text-gray-600 text-sm">8972493209 / 9074627887 / 8097991266</p>
                     </div>
                   </div>
                   <div className="flex items-start gap-4">
