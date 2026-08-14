@@ -1,0 +1,378 @@
+"use client";
+
+import { motion, useInView } from "framer-motion";
+import Image from "next/image";
+import { ChefHat, Award, Users, Clock, Star } from "lucide-react";
+import { useEffect, useRef, useState } from "react";
+
+function Counter({ value, suffix = "" }: { value: number, suffix?: string }) {
+  const ref = useRef(null);
+  const isInView = useInView(ref, { once: true });
+  const [count, setCount] = useState(0);
+
+  useEffect(() => {
+    if (isInView) {
+      const duration = 2000; // 2 seconds
+      const steps = 60;
+      const stepTime = duration / steps;
+      let current = 0;
+      const timer = setInterval(() => {
+        current += value / steps;
+        if (current >= value) {
+          setCount(value);
+          clearInterval(timer);
+        } else {
+          setCount(Math.floor(current));
+        }
+      }, stepTime);
+      return () => clearInterval(timer);
+    }
+  }, [isInView, value]);
+
+  return <span ref={ref}>{count}{suffix}</span>;
+}
+
+const instagramPosts = [
+  { src: "/DSC_3712.JPG", alt: "Signature vegetarian dishes at Café VanaBella Pune" },
+  { src: "/DSC_3829.JPG", alt: "Artisan coolers and mocktails at Café VanaBella Pune" },
+  { src: "/DSC_4076.JPG", alt: "Cozy seating at Café VanaBella Pimple Nilakh" },
+  { src: "/DSC_5171.JPG", alt: "Nature-themed decor at Café VanaBella Pune" },
+  { src: "/NRD04368.JPG", alt: "Gourmet dishes and artisan coffee at Café VanaBella Pune" },
+  { src: "/NRD04413.JPG", alt: "Handcrafted mocktails at Café VanaBella Pune" }
+];
+
+export default function AboutClient() {
+  return (
+    <div className="min-h-screen bg-white text-black selection:bg-black selection:text-white">
+      
+      {/* HERO BANNER */}
+      <section className="relative h-[50vh] flex items-center justify-center overflow-hidden bg-emerald-950">
+        <div className="absolute inset-0 z-0">
+          <Image 
+            src="/DSC_4135.JPG"
+            alt="Café VanaBella lush nature-inspired interior in Pimple Nilakh, Pune"
+            fill
+            className="object-cover opacity-50"
+            priority
+          />
+        </div>
+        <div className="relative z-10 text-center px-4 text-white">
+          <motion.h1 
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            className="text-5xl md:text-7xl font-serif font-bold mb-6 font-cinzel"
+          >
+            Our <span className="italic font-light font-serif">Story</span>
+          </motion.h1>
+          <p className="text-emerald-100 font-light tracking-widest uppercase text-sm md:text-base max-w-2xl mx-auto">
+            Crafting culinary experiences since 2024
+          </p>
+        </div>
+      </section>
+
+      {/* NARRATIVE SECTION */}
+      <section className="py-24 px-4">
+        <div className="container mx-auto max-w-6xl">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-16 items-center">
+            <motion.div 
+              initial={{ opacity: 0, x: -20 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true }}
+              className="relative h-[600px] w-full"
+            >
+              <Image 
+                src="/DSC_4313.JPG"
+                alt="Artisan dining and serene green ambiance at Café VanaBella Pune"
+                fill
+                className="object-cover grayscale hover:grayscale-0 transition-all duration-700"
+              />
+              <div className="absolute -bottom-8 -right-8 w-64 h-64 bg-gray-100 p-8 hidden md:flex flex-col justify-center items-center text-center border border-gray-200">
+                <span className="text-5xl font-serif font-bold mb-2">2024</span>
+                <span className="text-sm uppercase tracking-widest text-gray-500">Established</span>
+              </div>
+            </motion.div>
+            
+            <motion.div 
+              initial={{ opacity: 0, x: 20 }}
+              whileInView={{ opacity: 1, x: 0 }}
+              viewport={{ once: true }}
+            >
+              <h2 className="text-4xl font-serif font-bold mb-8">Tradition Meets <span className="italic text-gray-500">Innovation</span></h2>
+              <p className="text-gray-600 leading-relaxed mb-6">
+                Founded in 2024 in Pimple Nilakh, Pune, VanaBella began with a simple mission: to create a green urban sanctuary where nature meets exceptional culinary experiences. With 200+ plants, pet-friendly ambiance, and garden seating, what started as a vision has grown into a beloved destination for food enthusiasts and coffee lovers alike. Rated ⭐ 4.8/5 by 120+ verified guests.
+              </p>
+              <p className="text-gray-600 leading-relaxed mb-8 text-lg">
+                We believe that food is more than just sustenance—it's an experience, a connection. Every dish we serve tells a story of passion, quality, and authenticity. We source our ingredients locally, supporting our community's farmers and ensuring the freshest flavors on your plate.
+              </p>
+              <div className="grid grid-cols-2 gap-8">
+                <div>
+                  <h4 className="font-bold uppercase tracking-widest mb-2 text-sm">Our Philosophy</h4>
+                  <p className="text-gray-500 text-sm">Fresh ingredients, authentic flavors, and a welcoming atmosphere for all.</p>
+                </div>
+                <div>
+                  <h4 className="font-bold uppercase tracking-widest mb-2 text-sm">Our Promise</h4>
+                  <p className="text-gray-500 text-sm">To deliver an unforgettable dining experience, every single time.</p>
+                </div>
+              </div>
+            </motion.div>
+          </div>
+        </div>
+      </section>
+
+      {/* STATS SECTION */}
+      <section className="bg-black text-white py-20">
+        <div className="container mx-auto px-4">
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
+            {[
+              { icon: ChefHat, label: "Master Chefs", value: 5, suffix: "+" },
+              { icon: Award, label: "Menu Items", value: 100, suffix: "+" },
+              { icon: Users, label: "Happy Guests", value: 5000, suffix: "+" },
+              { icon: Clock, label: "Established", value: 2024, suffix: "" },
+            ].map((stat, index) => (
+              <motion.div 
+                key={index}
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ delay: index * 0.1 }}
+                className="flex flex-col items-center"
+              >
+                <stat.icon size={32} className="mb-4 text-gray-400" />
+                <span className="text-4xl font-serif font-bold mb-2">
+                  <Counter value={stat.value} suffix={stat.suffix} />
+                </span>
+                <span className="text-xs uppercase tracking-widest text-gray-500">{stat.label}</span>
+              </motion.div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* REVIEWS SECTION */}
+      <section className="py-24 px-4 bg-gray-50">
+        <div className="container mx-auto max-w-6xl">
+          <div className="text-center mb-16">
+            <h2 className="text-3xl font-serif font-bold mb-4">Guest <span className="italic text-gray-500">Reviews</span></h2>
+            <p className="text-gray-500">What our community says about us.</p>
+          </div>
+          
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+            {[
+              {
+                name: "Priya Sharma",
+                role: "Food Blogger",
+                review: "The ambiance is simply magical. It feels like dining in a forest! The pasta was authentic and the coffee is the best in Pimple Nilakh.",
+                rating: 5
+              },
+              {
+                name: "Rahul Deshmukh",
+                role: "Coworking Member",
+                review: "I've been working from here for a month. The WiFi is fast, the seating is comfortable, and the staff is incredibly polite. Highly recommended!",
+                rating: 5
+              },
+              {
+                name: "Ananya Patel",
+                role: "Regular Guest",
+                review: "Celebrated my birthday here last week. The decoration was beautiful and the cake was delicious. Thank you VanaBella for making it special!",
+                rating: 4
+              },
+              {
+                name: "Aanya P.",
+                role: "Guest",
+                review: "Loved the vibe and the pastries. Perfect for birthdays!",
+                rating: 5
+              },
+              {
+                name: "Rahul M.",
+                role: "Coffee Lover",
+                review: "Cozy spot, great coffee, friendly staff.",
+                rating: 5
+              },
+              {
+                name: "Priya S.",
+                role: "Parent",
+                review: "Booked for my kid’s party — seamless experience.",
+                rating: 5
+              }
+            ].map((review, index) => (
+              <motion.div 
+                key={index}
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ delay: index * 0.1 }}
+                className="bg-white p-8 shadow-sm border border-gray-100"
+              >
+                <div className="flex gap-1 mb-4 text-yellow-400">
+                  {[...Array(5)].map((_, i) => (
+                    <Star key={i} size={16} fill={i < review.rating ? "currentColor" : "none"} className={i < review.rating ? "" : "text-gray-300"} />
+                  ))}
+                </div>
+                <p className="text-gray-600 italic mb-6">"{review.review}"</p>
+                <div>
+                  <h4 className="font-bold text-sm uppercase tracking-widest">{review.name}</h4>
+                  <span className="text-xs text-gray-400">{review.role}</span>
+                </div>
+              </motion.div>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* LOCATION & CONTACT SECTION */}
+      <section className="py-24 px-4 bg-emerald-50 relative">
+        <div className="container mx-auto max-w-7xl">
+          <motion.div 
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            className="text-center mb-16"
+          >
+            <h2 className="text-4xl md:text-5xl font-cinzel font-bold mb-4 text-emerald-950">
+              Visit <span className="italic font-light">Us</span>
+            </h2>
+            <p className="text-gray-600 font-serif">Find us in the heart of Pimple Nilakh</p>
+          </motion.div>
+
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
+            {/* Left Column: Map & Instagram */}
+            <div className="space-y-8">
+              {/* Google Maps */}
+              <motion.div 
+                initial={{ opacity: 0, x: -20 }}
+                whileInView={{ opacity: 1, x: 0 }}
+                viewport={{ once: true }}
+                className="rounded-2xl overflow-hidden shadow-2xl border border-emerald-200"
+              >
+                <iframe
+                  src="https://maps.google.com/maps?q=Cafe%20VanaBella%2C%20Pimple%20Nilakh&t=&z=15&ie=UTF8&iwloc=&output=embed"
+                  width="100%"
+                  height="250"
+                  style={{ border: 0 }}
+                  allowFullScreen
+                  loading="lazy"
+                  referrerPolicy="no-referrer-when-downgrade"
+                  className="grayscale hover:grayscale-0 transition-all duration-500"
+                ></iframe>
+              </motion.div>
+
+              {/* Instagram Section */}
+              <motion.div
+                initial={{ opacity: 0, x: -20 }}
+                whileInView={{ opacity: 1, x: 0 }}
+                viewport={{ once: true }}
+                transition={{ delay: 0.2 }}
+                className="bg-white rounded-2xl p-8 shadow-xl border border-emerald-100 text-center"
+              >
+                <h3 className="text-xl font-cinzel font-bold text-emerald-950 mb-4">Follow Us on Instagram</h3>
+                <a 
+                  href="https://www.instagram.com/cafevanabella" 
+                  target="_blank" 
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-2 px-6 py-3 bg-gradient-to-r from-purple-500 via-pink-500 to-orange-500 text-white rounded-full font-bold uppercase tracking-wider text-sm hover:opacity-90 transition-opacity shadow-lg mb-6"
+                >
+                  <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                    <path fillRule="evenodd" d="M12.315 2c2.43 0 2.784.013 3.808.06 1.064.049 1.791.218 2.427.465a4.902 4.902 0 011.772 1.153 4.902 4.902 0 011.153 1.772c.247.636.416 1.363.465 2.427.048 1.067.06 1.407.06 4.123v.08c0 2.643-.012 2.987-.06 4.043-.049 1.064-.218 1.791-.465 2.427a4.902 4.902 0 01-1.153 1.772 4.902 4.902 0 01-1.772 1.153c-.636.247-1.363.416-2.427.465-1.067.048-1.407.06-4.123.06h-.08c-2.643 0-2.987-.012-4.043-.06-1.064-.049-1.791-.218-2.427-.465a4.902 4.902 0 01-1.772-1.153 4.902 4.902 0 01-1.153-1.772c-.247-.636-.416-1.363-.465-2.427-.047-1.024-.06-1.379-.06-3.808v-.63c0-2.43.013-2.784.06-3.808.049-1.064.218-1.791.465-2.427a4.902 4.902 0 011.153-1.772 4.902 4.902 0 011.772-1.153c.636-.247 1.363-.416 2.427-.465 1.067-.047 1.407-.06 4.123-.06h.08zm-1.634 7.676a3 3 0 113.268 3.268 3 3 0 01-3.268-3.268z" clipRule="evenodd" />
+                  </svg>
+                  @cafevanabella
+                </a>
+
+                {/* Instagram Grid */}
+                <div className="grid grid-cols-3 gap-2 mt-4">
+                  {instagramPosts.map((post, idx) => (
+                    <div key={idx} className="relative aspect-square overflow-hidden rounded-lg group cursor-pointer">
+                      <Image 
+                        src={post.src} 
+                        alt={post.alt}
+                        fill
+                        className="object-cover group-hover:scale-110 transition-transform duration-500"
+                      />
+                      <div className="absolute inset-0 bg-black/20 group-hover:bg-black/0 transition-colors"></div>
+                    </div>
+                  ))}
+                </div>
+              </motion.div>
+            </div>
+
+            {/* Contact Details */}
+            <motion.div 
+              initial={{ opacity: 0, x: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              className="space-y-8"
+            >
+              <div className="bg-white rounded-2xl p-8 shadow-xl border border-emerald-100">
+                <div className="flex items-start gap-4 mb-6">
+                  <div className="p-3 bg-emerald-100 rounded-full">
+                    <svg className="w-6 h-6 text-emerald-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+                    </svg>
+                  </div>
+                  <div>
+                    <h3 className="text-xl font-cinzel font-bold text-emerald-950 mb-2">Address</h3>
+                    <p className="text-gray-600 leading-relaxed">
+                      3, GK Ln., near Srimal Hospital,<br />
+                      Nandanwan Society, Vishal Nagar, Pimple Nilakh,<br />
+                      Pimpri-Chinchwad, Maharashtra 411027
+                    </p>
+                  </div>
+                </div>
+              </div>
+
+              <div className="bg-white rounded-2xl p-8 shadow-xl border border-emerald-100">
+                <div className="flex items-start gap-4 mb-6">
+                  <div className="p-3 bg-emerald-100 rounded-full">
+                    <svg className="w-6 h-6 text-emerald-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
+                    </svg>
+                  </div>
+                  <div>
+                    <h3 className="text-xl font-cinzel font-bold text-emerald-950 mb-2">Phone</h3>
+                    <p className="text-gray-600">
+                      <a href="tel:+918262022502" className="hover:text-emerald-600 transition-colors">82620 22502</a> / <a href="tel:+917972493209" className="hover:text-emerald-600 transition-colors">79724 93209</a>
+                    </p>
+                  </div>
+                </div>
+              </div>
+
+              <div className="bg-white rounded-2xl p-8 shadow-xl border border-emerald-100">
+                <div className="flex items-start gap-4 mb-6">
+                  <div className="p-3 bg-emerald-100 rounded-full">
+                    <svg className="w-6 h-6 text-emerald-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+                    </svg>
+                  </div>
+                  <div>
+                    <h3 className="text-xl font-cinzel font-bold text-emerald-950 mb-2">Hours</h3>
+                    <p className="text-gray-600">
+                      Monday - Sunday<br />
+                      11:00 AM - 11:00 PM
+                    </p>
+                  </div>
+                </div>
+              </div>
+
+              <div className="bg-white rounded-2xl p-8 shadow-xl border border-emerald-100">
+                <div className="flex items-start gap-4 mb-6">
+                  <div className="p-3 bg-emerald-100 rounded-full">
+                    <svg className="w-6 h-6 text-emerald-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+                    </svg>
+                  </div>
+                  <div>
+                    <h3 className="text-xl font-cinzel font-bold text-emerald-950 mb-2">Email</h3>
+                    <p className="text-gray-600">
+                      <a href="mailto:cafevanabella@gmail.com" className="hover:text-emerald-600 transition-colors">cafevanabella@gmail.com</a>
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </motion.div>
+          </div>
+        </div>
+      </section>
+
+    </div>
+  );
+}
